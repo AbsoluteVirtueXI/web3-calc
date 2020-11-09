@@ -70,6 +70,20 @@ function App() {
     }
   }
 
+  const handleOnClickMul = async (nb1, nb2) => {
+    const res = await web3State.calculator.mul(nb1, nb2)
+    console.log(res.toString())
+  }
+
+  const handleOnClickDiv = async (nb1, nb2) => {
+    try {
+      const res = await web3State.calculator.div(nb1, nb2)
+      console.log(res.toString())
+    } catch (e) {
+      console.log(e.reason)
+    }
+  }
+
   // Check if Web3 is injected
   useEffect(() => {
     if (typeof window.ethereum !== 'undefined') {
@@ -171,7 +185,9 @@ function App() {
     <>
       <VStack>
         <Button onClick={async () => handleOnClickAdd(11, 13)}>Add</Button>
-        <Button onClick={async () => handleOnClickSub(1, 2)}>Sub</Button>
+        <Button onClick={async () => handleOnClickSub(9, 2)}>Sub</Button>
+        <Button onClick={async () => handleOnClickMul(11, 2)}>Mul</Button>
+        <Button onClick={async () => handleOnClickDiv(10, 2)}>Div</Button>
       </VStack>
     </>
   )
