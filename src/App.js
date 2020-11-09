@@ -39,12 +39,35 @@ const initialWeb3State = {
   calculator: null,
 }
 
+const dappReducer = (state, action) => {
+  switch (action.type) {
+    case 'SET_input1':
+      return { ...state, input1: action.input1 }
+    default:
+      throw new Error(`Unhandled action ${action.type} in dappReducer`)
+  }
+}
+
+const initialState = {
+  input1: 0,
+  input2: 0,
+}
+
 function App() {
   const [web3State, web3Dispatch] = useReducer(web3Reducer, initialWeb3State)
 
   const handleOnClickAdd = async (nb1, nb2) => {
     const res = await web3State.calculator.add(nb1, nb2)
     console.log(res.toString())
+  }
+
+  const handleOnClickSub = async (nb1, nb2) => {
+    try {
+      const res = await web3State.calculator.sub(nb1, nb2)
+      console.log(res.toString())
+    } catch (e) {
+      console.log(e.reason)
+    }
   }
 
   // Check if Web3 is injected
@@ -146,7 +169,10 @@ function App() {
 
   return (
     <>
-      <Button onClick={async () => handleOnClickAdd(10, 10)}>Add</Button>
+      <VStack>
+        <Button onClick={async () => handleOnClickAdd(11, 13)}>Add</Button>
+        <Button onClick={async () => handleOnClickSub(1, 2)}>Sub</Button>
+      </VStack>
     </>
   )
 }
